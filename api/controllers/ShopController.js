@@ -82,8 +82,8 @@ module.exports = {
         res.view('shop/product-details',{
             product:product,
             path:'/product/:id',
-            isAuthenticated:req.session.isLoggedIn
-
+            isAuthenticated:req.session.isLoggedIn,
+            isAdmin:req.session.isAdmin
         })
     },
 
