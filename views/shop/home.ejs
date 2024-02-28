@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-shop-Home</title>
+</head>
+<body>
+    <%- include('../includes/navbar') %>
+    <main>
+
+        <% if(shopProducts.length > 0) {%>
+            <!-- <h1>welcome home!</h1>
+            <% //if(isAuthenticated){%>
+                <h1>Hello <%=//isUser.name %></h1>
+                <h1><%= //isUser.name %></h1> -->
+            <%//}%> 
+            <% for(let products of shopProducts) {%>
+                <!-- <h2><%=//products.category%></h2>
+                <h2><%=//products.title%></h2>
+                <img src="<%=// products.imageUrl%>" alt="Product Image">
+                <h3><%=//products.price%></h3>
+                <h4><%=//products.description%></h4>
+                <form action="/cart" method="POST">
+                    <input type="text" name="productId" id="productId" value="<%=//products.id%>">
+                    <button type="submit">Add to cart</button>
+                </form> -->
+              
+                    <div class="d-flex flex-row justify-content-center">
+                        <div class="card m-5 text-center p-2" style="width: 18rem;">
+                            <h5 style="text-decoration: underline;"><%= products.category%></h5>
+                            <img src="<%=products.imageUrl%>" class="card-img-top" alt="Product Image" style="height: 200px;">
+                            <div class="card-body">
+                              <h3 class="card-title"><%=products.title%></h3>
+                              <h4 class="card-title">&#8377;<%=products.price%></h4>
+                              <p class="card-text"><%=products.description  %></p>
+                              <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                              <a href="/products/<%=products.id%>" class="btn btn-dark">Details</a>
+                              <% if (isAuthenticated) { %>
+                                <% if(isAdmin) {%> 
+                                    <div class="card__actions">
+                                        <a href="/admin/edit-product/<%= products.id %>" class="btn btn-dark my-2">Edit</a>
+                                        <form action="/admin/delete-product" method="POST">
+                                            <input type="hidden" value="<%= products.id %>" name="productId">
+                                            <button class="btn btn-danger my-2" type="submit">Delete</button>
+                                        </form>
+                                    </div>
+                                    <% } %>
+                                    <form action="/cart" method="post">
+                                              <button class="btn btn-dark my-2" type="submit">Add to Cart</button>
+                                              <input type="hidden" name="productId" value="<%= products.id %>">
+                                    </form>
+                          <% } %>
+                          <% if(!isAuthenticated) {%>
+                              <a class="btn btn-dark" href="/login">Add to cart</a>
+                          <% } %>
+                          </div>       
+    
+                    </div>
+            <% } %>
+            <% } else {%>
+                <h1>No Products!</h1>
+            <% } %>
+            <!-- Pagination -->
+        </main>
+        <% if(shopProducts.length > 0) {%>
+            <div class="text-center">
+                <% for(let j =1 ; j<=totalpage ; j++) {%>
+                        <a class="btn btn-sm btn-dark" href="?page=<%=j%>"><%= j %></a>
+                 <%}%>
+            </div>
+        <% } %>
+
+        
+</body>
+</html>
