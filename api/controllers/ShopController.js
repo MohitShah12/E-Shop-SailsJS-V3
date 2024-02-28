@@ -6,14 +6,12 @@
  */
 
 module.exports = {
+    //Home page
     getHome: async(req,res)=>{
         let page = 1;
         if(req.query.page){
             page=req.query.page
-            console.log(req.query.page)
-            console.log('page',page)
         }
-        //console.log('query: ',req.query.page)
         let query = {}
         if(req.query.search){
             const search = req.query.search
@@ -21,14 +19,11 @@ module.exports = {
                 {title:{contains:search}},
                 {category:{contains:search}}
             ]}
-            console.log(search)
         }
 
-        console.log(query)
         let limit = 5;
         const count = await Shop.count()
         const shop = await Shop.find(query).meta({makeLikeModifierCaseInsensitive:true}).limit(limit).skip((page - 1)*limit)
-        // console.log(count)
         res.view('shop/home',{
             shopProducts : shop,
             isAuthenticated:req.session.isLoggedIn,
@@ -40,15 +35,13 @@ module.exports = {
         })
     },
 
+    //Products page
     getProducts:async(req,res)=>{
 
-         let page = 1;
+        let page = 1;
         if(req.query.page){
             page=req.query.page
-            console.log(req.query.page)
-            console.log('page',page)
         }
-        //console.log('query: ',req.query.page)
         let query = {}
         if(req.query.search){
             const search = req.query.search
@@ -56,10 +49,7 @@ module.exports = {
                 {title:{contains:search}},
                 {category:{contains:search}}
             ]}
-            console.log(search)
         }
-
-        console.log(query)
         let limit = 5;
         const count = await Shop.count()
         const products = await Shop.find(query).meta({makeLikeModifierCaseInsensitive:true}).limit(limit).skip((page - 1)*limit)
@@ -74,6 +64,7 @@ module.exports = {
         })
     },
 
+    //Deatils of a single Product
     getProduct:async(req,res)=>{
         const productid = req.params.id 
         const product = await Shop.findOne({id:productid})
@@ -82,47 +73,44 @@ module.exports = {
         res.view('shop/product-details',{
             product:product,
             path:'/product/:id',
-            isAuthenticated:req.session.isLoggedIn
+            isAuthenticated:req.session.isLoggedIn,
+            isAdmin:req.session.isAdmin
 
         })
     },
 
     
-
+    //Add to cart or update the quantity
     postAddCart: async(req,res)=>{
         const userId = req.session.user.id
-        //console.log(userId)
         const productId = req.body.productId
-        //console.log(productId)
         const product = await Shop.findOne({id:productId})
-        //console.log(product)
         
         const findproductincart = await CartItem.findOne({user:userId,shop:productId})
+        //if product is in cart
         if(findproductincart){
             const newQuant = findproductincart.quantity + 1;
-            console.log(newQuant)
             await CartItem.update({shop:productId},{quantity:newQuant})
             
         } 
+        //add to cart
         else{
             const cartItem = await CartItem.create({
                 user:userId,
                 shop:productId,
                 quantity:1
             }).fetch()
-            console.log(cartItem);
             const userCart=await User.addToCollection(userId,'cart').members([cartItem.id])
-            console.log(userCart)
         }
         const user = await User.findOne(userId).populate('cart');
         res.redirect('/cart')
-        //console.log(user.cart);
     },
+
+    //cart
     getCart:async(req,res)=>{
         try {
             const userId= req.session.user.id
             const userCart = await CartItem.find({user:userId}).populate('shop')
-            //console.log('User Cart : ',userCart)
             res.view('shop/cart',{
                 product:userCart,
                 path:'/cart',
@@ -133,6 +121,8 @@ module.exports = {
             console.log(error)
         }
     },
+
+    //delete from cart
     postDeletecart:async(req,res)=>{
         try {
             const product = await CartItem.findOne({id:req.body.productId})
@@ -146,23 +136,19 @@ module.exports = {
         }
     },
 
+    //checkout page
     getCheckout:async(req,res)=>{
-        // console.log(req.session.user.id)
         const products = await CartItem.find({user:req.session.user.id}).populate('shop')
         let sum = 0
         let totalSum = 0;
         for(prods of products){
-            // console.log(prods.quantity)
             sum = prods.quantity * prods.shop.price
-            // console.log(sum)
             totalSum += sum;
         }
-        // console.log(totalSum)
         res.view('shop/checkout',{
             total:totalSum,
             product:products
         })
-        // console.log(products)
     }
 
 };
