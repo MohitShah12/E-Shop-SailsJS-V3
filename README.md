@@ -34,7 +34,7 @@ Ejs.
 SailsJS.
 MongoDB.
 
-#### You can run the site by writing npm run start-server in terminal
+#### You can run the site by writing npm run dev in terminal
 
 #### Login to SuperUser (Admin)
 email :- abc@abc.com
