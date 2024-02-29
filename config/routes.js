@@ -12,7 +12,6 @@ module.exports.routes = {
     //User authentication
     'POST /signup' : 'UserController.postSignup',
     'POST /login' : 'UserController.postLogin',
-    // 'GET /signup' : {action:'signup'}
     'GET /signup' : 'UserController.getSingup',
     'GET /login' : 'UserController.getLogin',
     'POST /logout' : 'UserController.postLogout',
@@ -26,6 +25,7 @@ module.exports.routes = {
     'GET /admin/edit-product/:id':'AdminController.getEditProduct',
     'POST /admin/add-product' : 'AdminController.postAddProduct',
     'POST /admin/edit-product' : 'AdminController.postEditproduct',
+    'GET /admin/edit-product' : 'AdminController.postEditproduct',
     'POST /admin/delete-product':'AdminController.postDeleteProduct',
 
 

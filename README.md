@@ -16,6 +16,30 @@ a [Sails v1](https://sailsjs.com) application
 
 This app was originally generated on Fri Feb 23 2024 15:09:04 GMT+0530 (India Standard Time) using Sails v1.5.9.
 
+# Ecommerce Web Shop 
+Ecommerce web shop is a web application developed using EJS and SailsJs.
+## Instructions for Running Locally
+### Prerequisites
+- Node.js installed on your machine
+- Mongodb installed and running
+
+# Features
+User Authentication : Users can authenticate themselves and can navigate through website
+Admin authentication : Admin can authenticate to add update or deleteexistig produtcs
+Cart system : User can add items to cart.
+
+# Dependecies
+NodeJs.
+Ejs.
+SailsJS.
+MongoDB.
+
+#### You can run the site by writing npm run dev in terminal
+
+#### Login to SuperUser (Admin)
+email :- abc@abc.com
+password :- 123456
+
 <!-- Internally, Sails used [`sails-generate@2.0.9`](https://github.com/balderdashy/sails-generate/tree/v2.0.9/lib/core-generators/new). -->
 
 

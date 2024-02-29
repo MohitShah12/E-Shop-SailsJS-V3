@@ -36,7 +36,7 @@ module.exports.bootstrap = async function() {
     const hashPassword = await bcrypt.hash(process.env.ADMIN_PASS,12)
     console.log('hashpassword',hashPassword)
     await User.create({
-      email:process.env.ADMIN_EMAIL,
+       email:process.env.ADMIN_EMAIL,
       password:hashPassword,
       name:process.env.ADMIN_NAME,
       mobileno:process.env.ADMIN_MOBILE,
