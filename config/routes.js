@@ -15,6 +15,7 @@ module.exports.routes = {
     'GET /signup' : 'UserController.getSingup',
     'GET /login' : 'UserController.getLogin',
     'POST /logout' : 'UserController.postLogout',
+    'POST /user' : 'UserController.getUser',
 
     //Main pages
     'GET /' :'ShopController.getHome',

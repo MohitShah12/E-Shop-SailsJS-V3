@@ -1,0 +1,731 @@
+{
+	"info": {
+		"_postman_id": "3a801bb5-d88e-465f-922e-6fce31c27795",
+		"name": "Ecommerce sails",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32823335"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"abc@abc.com\",\n    \"password\":\"123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1337/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"abc@abc.com\",\n    \"password\":\"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1337/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTFhMTZiMjk1ZmY3ZDY0M2MyNDg4ZCIsImVtYWlsIjoiYWJjQGFiYy5jb20iLCJzdXBlclVzZXIiOnRydWUsImlhdCI6MTcwOTU0NDQ0NiwiZXhwIjoxNzA5NjMwODQ2fQ.Gv80FBQaZFD34xRXqV-uMNgkpUiDOyo1Vu70Z7aAf_E"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "JWTtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTFhMTZiMjk1ZmY3ZDY0M2MyNDg4ZCIsImVtYWlsIjoiYWJjQGFiYy5jb20iLCJzdXBlclVzZXIiOnRydWUsImlhdCI6MTcwOTU0NDQ0NiwiZXhwIjoxNzA5NjMwODQ2fQ.Gv80FBQaZFD34xRXqV-uMNgkpUiDOyo1Vu70Z7aAf_E; Max-Age=86400; Path=/; Expires=Tue, 05 Mar 2024 09:27:26 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-UJHQGX+9TIlYG3IrpydYohdunOA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 09:27:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"you have successfully logged in\""
+						}
+					]
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"mj@shah.com\",\n    \"name\":\"Mjshah\",\n    \"password\":\"123456\",\n    \"mobileno\":\"1234567890\",\n    \"address\":\"home\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1337/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"signup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"mj@shah.com\",\n    \"name\":\"Mjshah\",\n    \"password\":\"123456\",\n    \"mobileno\":\"1234567890\",\n    \"address\":\"home\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1337/signup",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"signup"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-0xaTR5KqYOyq6PuDmigj5B//LfQ\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 09:30:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"You have signed in succesfully\""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Shop",
+			"item": [
+				{
+					"name": "Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1337/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get cart",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1337/cart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2-l9Fw4VUO7kr8CvBlt4zaMCqXZ0w\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 09:59:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[]"
+						}
+					]
+				},
+				{
+					"name": "Post cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\":\"65e59b7493605124c39f30cf\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1337/cart",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"productId\":\"65e59b7493605124c39f30cf\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1337/cart",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "42"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a-yrl/DysoQWxV+zfaB9dwEiZSzA8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 10:00:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"Product was added into cart successfully\""
+						}
+					]
+				},
+				{
+					"name": "Checkout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1337/checkout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"checkout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1337/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"checkout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "23"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17-tAy3AhWtAquFWwJoBAHEYyYP+6g\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 10:03:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"TotalPay\": 30000\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Add-Prooduct",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Mobile\",\n    \"imageUrl\":\"https://5.imimg.com/data5/SELLER/Default/2020/12/WI/VR/VK/118676901/oppo-f17-pro-mobile.jpg\",\n    \"price\":10000,\n    \"description\":\"abcdefghijklmnopqrstuv\",\n    \"category\":\"Elec\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1337/admin/add-product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"admin",
+								"add-product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\":\"Mobile\",\n    \"imageUrl\":\"https://5.imimg.com/data5/SELLER/Default/2020/12/WI/VR/VK/118676901/oppo-f17-pro-mobile.jpg\",\n    \"price\":10000,\n    \"description\":\"abcdefghijklmnopqrstuv\",\n    \"category\":\"Elec\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1337/admin/add-product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"admin",
+										"add-product"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-YJVRHecDbu83qbPQNb/KlEd/ocs\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 09:46:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"Product was added successfully\""
+						}
+					]
+				},
+				{
+					"name": "Edit-product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\":\"65e5986a7ff504a01b4a1547\",\n    \"title\":\"Mobile\",\n    \"imageUrl\":\"https://5.imimg.com/data5/SELLER/Default/2020/12/WI/VR/VK/118676901/oppo-f17-pro-mobile.jpg\",\n    \"price\":110000,\n    \"description\":\"abcdefghijklmnopqrstuv\",\n    \"category\":\"Elec\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1337/admin/edit-product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"admin",
+								"edit-product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"productId\":\"65e5986a7ff504a01b4a1547\",\n    \"title\":\"Mobile\",\n    \"imageUrl\":\"https://5.imimg.com/data5/SELLER/Default/2020/12/WI/VR/VK/118676901/oppo-f17-pro-mobile.jpg\",\n    \"price\":110000,\n    \"description\":\"abcdefghijklmnopqrstuv\",\n    \"category\":\"Elec\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1337/admin/edit-product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"admin",
+										"edit-product"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "33"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21-Ox2xrlnD36O4ddw4jFcD6BtFotg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 09:52:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"Product was edited successfully\""
+						}
+					]
+				},
+				{
+					"name": "Delete-Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\":\"65e5986a7ff504a01b4a1547\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:1337/admin/delete-product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"admin",
+								"delete-product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"productId\":\"65e5986a7ff504a01b4a1547\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1337/admin/delete-product",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"admin",
+										"delete-product"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"22-XdRLAb2N5iLcXQmWIkYwUkTt+kw\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 04 Mar 2024 09:56:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "\"Product was deleted successfully\""
+						}
+					]
+				}
+			]
+		}
+	]
+}

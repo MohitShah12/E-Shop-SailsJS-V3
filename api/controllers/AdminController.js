@@ -5,8 +5,12 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const validator = require('validator')
-const jwt = require('jsonwebtoken')
+const {validator} = sails.config.constants.Dependencies
+const Messages = sails.config.constants.Messages
+const ResCode = sails.config.constants.ResCodes
+
+// const validator = require('validator')
+// const jwt = require('jsonwebtoken')
 
 module.exports = {
     
@@ -15,13 +19,10 @@ module.exports = {
         try {
             let isLoggedIn = false
             let isAdmin = false
-            if(req.cookies.JWTtoken){
-                decodedToken = await jwt.verify(req.cookies.JWTtoken,process.env.SESSION_SECRET)
-                if(decodedToken){
-                        isLoggedIn = true
-                        isAdmin = decodedToken.superUser
-                    }
-                }
+            if(req.user){
+                isLoggedIn = true
+                isAdmin = req.user.superUser
+            }
             res.view('admin/edit-products',{
                 editing:false,
                 isAuthenticated :isLoggedIn,
@@ -29,7 +30,7 @@ module.exports = {
                 path: "/admin/add-product"
             })
         } catch (error) {
-            res.badRequest('Internal server error')
+             return res.serverError(error.message)
         }
     },
 
@@ -38,12 +39,9 @@ module.exports = {
         try {
             let isLoggedIn = false
             let isAdmin = false
-            if(req.cookies.JWTtoken){
-                decodedToken = await jwt.verify(req.cookies.JWTtoken,process.env.SESSION_SECRET)
-                if(decodedToken){
-                        isLoggedIn = true
-                        isAdmin = decodedToken.superUser
-                    }
+            if(req.user){
+                   isLoggedIn = true
+                    isAdmin = req.user.superUser
                 }
             const product = await Shop.findOne({id:req.params.id})
             res.view('admin/edit-products',{
@@ -54,7 +52,7 @@ module.exports = {
                 product:product
             })
         } catch (error) {
-            return res.badRequest('Internal server error')
+            return res.serverError(error.message)
         }
     },
 
@@ -64,13 +62,13 @@ module.exports = {
         try {
             //description validation
             if(!validator.isLength(req.body.description,{min:10})){
-                req.addFlash('error','Description must be at least 10 characters long')
-                return res.redirect('/admin/add-product')
+                return res.badRequest(Messages.descLength)
+                //return res.redirect('/admin/add-product')
             }
             //image url validation
             if(!validator.isURL(req.body.imageUrl)){
-                req.addFlash('error','Please provide a valid url of image')
-                return res.redirect('/admin/add-product')
+                return res.badRequest(Messages.imgUrl)
+                //return res.redirect('/admin/add-product')
             }
             //creating new product
             const shop = await Shop.create({
@@ -80,9 +78,9 @@ module.exports = {
                 description:req.body.description,
                 category:req.body.category
             }).fetch()
-            res.redirect('/')
+            return res.ok(Messages.addProduct)
         } catch (error) {
-            res.badRequest('Internal server error')
+             return res.serverError(error.message)
         }
     },
 
@@ -91,17 +89,17 @@ module.exports = {
         try {
             //description validation
             if(!validator.isLength(req.body.description,{min:10})){
-                req.addFlash('error','Description must be at least 10 characters long')
-                return res.redirect(`/admin/edit-product/:${req.params.id}`)
+                return res.badRequest(Messages.descLength)
+                //return res.redirect(`/admin/edit-product/:${req.params.id}`)
             }
             //image url validation
             if(!validator.isURL(req.body.imageUrl)){
-                req.addFlash('error','Please provide a valid url of image')
-                return res.redirect('/admin/edit-product')
+                return res.badRequest(Messages.imgUrl)
+                //return res.redirect('/admin/edit-product')
             }
             const product = await Shop.findOne({id:req.body.productId})
             if(!product){
-                return res.status(400).send('Product Not found')
+                return res.status(400).send(Messages.noProduct)
             }
             await Shop.update({id:product.id},{
                 title:req.body.title,
@@ -110,25 +108,27 @@ module.exports = {
                 price:req.body.price,
                 category:req.body.category
             })
-            res.redirect('/')
+            return res.ok(Messages.editProduct)
         } catch (error) {
-            res.badRequest('Internal server error')
+             return res.serverError(error.message)
         }
     },
 
     //deleting proucts
     PostDeleteProduct: async(req,res)=>{
         try {
+            console.log('hdbc')
             const product = await Shop.findOne({id:req.body.productId})
+            console.log(req.body.productId)
             if(!product){
-                return res.status(400).send('Product Not found')
+                return res.status(ResCode.notFound).send(Messages.noProduct)
             }
             await Shop.destroy({id:product.id})
             //console.log('after:',product)
             await CartItem.destroy({shop:product.id})
-            res.redirect('/')
+            return res.ok(Messages.deleteProduct)
         } catch (error) {
-            res.badRequest('Internal server error')
+             return res.serverError(error.message)
         }
     },   
 

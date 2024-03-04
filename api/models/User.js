@@ -25,7 +25,8 @@ module.exports = {
     cart:{
       collection:'CartItem',
       via:'user'
-    }
+    },
+    token:{type:'string'}
   },
 };
 

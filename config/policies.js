@@ -19,4 +19,23 @@ module.exports.policies = {
 
   // '*': true,
 
+  //For authentication of user
+  ShopController:{
+    'getHome':'isLoggedIn',
+    'getProduct':'isLoggedIn',
+    'getProducts':'isLoggedIn',
+    'getCart':'isLoggedIn',
+    'getCheckout':'isLoggedIn',
+    'postAddCart':'isLoggedIn'
+  },
+
+  //checking superUser for adding/editing products
+  AdminController:{
+    'getAddProduct':'isLoggedIn',
+    'getEditProduct':'isLoggedIn',
+    'getCart':'isLoggedIn',
+  },
+
+
+
 };

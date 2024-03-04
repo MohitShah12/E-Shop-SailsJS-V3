@@ -5,13 +5,16 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-const bcrypt = require('bcrypt');
-const validator = require('validator')
-const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv').config();
+// const bcrypt = require('bcrypt');
+// const validator = require('validator')
+// const jwt = require('jsonwebtoken')
+// const dotenv = require('dotenv').config();
+const {bcrypt,validator,jwt,dotenv} = sails.config.constants.Dependencies
+const Messages = sails.config.constants.Messages
+const ResCodes = sails.config.constants.ResCodes
+
 
 module.exports = {
-
 
   postSignup: async(req,res)=>{
     try {
@@ -19,38 +22,35 @@ module.exports = {
       
       //unique email
       if(checkUser){
-        req.addFlash('error','User with same email already exist try Loggin in or use different email!')
-        return res.redirect('/signup')
+        return res.status(ResCodes.conflict).send(Messages.alreadyUser)
       }
       
       //valid email is needed
       if(!validator.isEmail(req.body.email)){
-        req.addFlash('error','Enter valid email')
-        return res.redirect('/signup')
+        return res.badRequest(Messages.validEmail)
+        //return res.redirect('/signup')
       }
       
       //length of name
       if(!validator.isLength(req.body.name,{min:3})){
-        req.addFlash('error','Name must be at least 3 characters long')
-        return res.redirect('/signup')
+        return res.badRequest(Messages.nameLength)
+        //return res.redirect('/signup')
       }
       
       //length of password
       if(!validator.isLength(req.body.password,{min:5})){
-        req.addFlash('error','Password must be at least 5 charcaters long')
-        return res.redirect('/signup')
+        return res.badRequest(Messages.passwordLength)
+        //return res.redirect('/signup')
       }
       
       //phone number validation
       if(!validator.isNumeric(req.body.mobileno)||!validator.isLength(req.body.mobileno,{min:10,max:10})){
-        req.addFlash('error','Phone no. must be in Numbers and must be 10 characters long')
-        return res.redirect('/signup')
+        return res.badRequest(Messages.phoneno)
       }
       
       //address is required
       if(!req.body.address){
-        req.addFlash('error','Address is required')
-        return res.redirect('/signup')
+        return res.badRequest(Messages.address)
       }
 
       const salt = 12;
@@ -70,10 +70,10 @@ module.exports = {
         delete user.password;//deleting user password from response
         console.log(req.body)
         console.log(user)
-        return res.redirect('/login')
+        return res.ok(Messages.signin)
+        //return res.redirect('/login')
     } catch (error) {
-         return res.badRequest("there was some error with the server")
-       
+        return res.serverError(error.message)
     }
   },
 
@@ -81,36 +81,46 @@ module.exports = {
     // console.log(req.body)
     try {
         const user = await User.findOne({email:req.body.email})
-
         //if user exist in database
         if(user){
             const validPassword = await bcrypt.compare(req.body.password,user.password)
             if(validPassword){
-
+              console.log(process.env.SESSION_SECRET)
+              const token = jwt.sign({id:user.id,email:user.email,superUser:user.superUser},process.env.SESSION_SECRET,{expiresIn:'1d'})
+              res.set('token', token);
+              console.log(user.email)
+              await User.update({email:user.email},{token:token})
                 //generating token
-                const token = await jwt.sign({id:user.id,superUser:user.superUser},process.env.SESSION_SECRET)
 
                 //storing token into cookie
                 res.cookie('JWTtoken',token, {
-                  maxAge:7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+                  maxAge:1 * 24 * 60 * 60 * 1000, // 1 day in milliseconds
+                  // maxAge:5000,
                   httpOnly: true, // preventing client-side JavaScript from accessing the cookie
                 })
+                //console.log(token)
+                // const headers = 'token'
+                // res.set(headers)
 
-           
-
-                return res.redirect('/')
+                // res.set('Authorization','Bearer' + token)
+                console.log('token',res.get('token'))
+                //res.ok(Messages.login)
+                return res.json({'token':token})
+                // return res.redirect('/')
             }
 
             //if password and email does not match
-            req.addFlash('error','Wrong credentials email and password does not match')
-            return res.redirect('/login')
+            
+            return res.status(ResCodes.unAuth).send(Messages.unauthorized)
+            //return res.redirect('/login')
         }
 
         //if user does not exist in database
-        req.addFlash('error','User with given email does not exist try signing up')
-        return res.redirect('/login')
+        return res.status(ResCodes.notFound).send(Messages.noemail)
+       
     } catch (error) {
-         return res.badRequest("there was some error with the server")
+          console.log(error)
+          return res.serverError(error.message)
     }
   },
 
@@ -122,7 +132,7 @@ module.exports = {
           isAuthenticated:false,
         })
     } catch (error) {
-      return res.status(500).send('Internal Server Error')
+      return res.serverError(error.message)
     }
   },
 
@@ -131,21 +141,29 @@ module.exports = {
     try {
       return res.view('auth/login')
     } catch (error) {
-       return res.badRequest("there was some error with the server")
+      return res.serverError(error.message)
     }
   },
 
+  //POST getuser
+  getUser : async(req,res)=>{
+    const token = req.header('token')
+    const user = jwt.verify(token,process.env.SESSION_SECRET)
+    req.user = user
+    return res.send(user)
+  },
 
   //logout
   postLogout : async(req,res)=>{
     try {
       //Clearing token and redirecting 
-      res.clearCookie('JWTtoken');
-      res.redirect('/')
+      //res.clearCookie('JWTtoken');
+      console.log(req.cookies.token)
+      await User.update({token:req.cookies.token},{token:''})
+      return res.ok(Messages.logout)
     } catch (error) {
-      return res.status(500).send('Internal Server Error')
+      return res.serverError(error.message)
     }
   } 
-
 };
 
