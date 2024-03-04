@@ -10,8 +10,8 @@
 // const jwt = require('jsonwebtoken')
 // const dotenv = require('dotenv').config();
 const {bcrypt,validator,jwt,dotenv} = sails.config.constants.Dependencies
-const Messages = sails.config.constants.Messages
 const ResCodes = sails.config.constants.ResCodes
+const {messages} = sails.config.constants.Dependencies
 
 
 module.exports = {
@@ -22,35 +22,35 @@ module.exports = {
       
       //unique email
       if(checkUser){
-        return res.status(ResCodes.conflict).send(Messages.alreadyUser)
+        return res.status(ResCodes.conflict).send({error:messages.alreadyUser})
       }
       
       //valid email is needed
       if(!validator.isEmail(req.body.email)){
-        return res.badRequest(Messages.validEmail)
+        return res.badRequest({error:messages.validEmail})
         //return res.redirect('/signup')
       }
       
       //length of name
       if(!validator.isLength(req.body.name,{min:3})){
-        return res.badRequest(Messages.nameLength)
+        return res.badRequest({error:messages.nameLength})
         //return res.redirect('/signup')
       }
       
       //length of password
       if(!validator.isLength(req.body.password,{min:5})){
-        return res.badRequest(Messages.passwordLength)
+        return res.badRequest({error:messages.passwordLength})
         //return res.redirect('/signup')
       }
       
       //phone number validation
       if(!validator.isNumeric(req.body.mobileno)||!validator.isLength(req.body.mobileno,{min:10,max:10})){
-        return res.badRequest(Messages.phoneno)
+        return res.badRequest({error:messages.phoneno})
       }
       
       //address is required
       if(!req.body.address){
-        return res.badRequest(Messages.address)
+        return res.badRequest({error:messages.address})
       }
 
       const salt = 12;
@@ -70,7 +70,7 @@ module.exports = {
         delete user.password;//deleting user password from response
         console.log(req.body)
         console.log(user)
-        return res.ok(Messages.signin)
+        return res.ok({success:messages.signin})
         //return res.redirect('/login')
     } catch (error) {
         return res.serverError(error.message)
@@ -104,19 +104,19 @@ module.exports = {
 
                 // res.set('Authorization','Bearer' + token)
                 console.log('token',res.get('token'))
-                //res.ok(Messages.login)
-                return res.json({'token':token})
+                return res.ok({message:messages.success})
+                // return res.json({'token':token})
                 // return res.redirect('/')
             }
 
             //if password and email does not match
             
-            return res.status(ResCodes.unAuth).send(Messages.unauthorized)
+            return res.status(ResCodes.unAuth).send({Unauthorized:messages.unauthorized})
             //return res.redirect('/login')
         }
 
         //if user does not exist in database
-        return res.status(ResCodes.notFound).send(Messages.noemail)
+        return res.status(ResCodes.notFound).send({NoEmail:messages.noemail})
        
     } catch (error) {
           console.log(error)
@@ -158,9 +158,13 @@ module.exports = {
     try {
       //Clearing token and redirecting 
       //res.clearCookie('JWTtoken');
-      console.log(req.cookies.token)
-      await User.update({token:req.cookies.token},{token:''})
-      return res.ok(Messages.logout)
+      console.log('jnsknx',req.cookies.JWTtoken)
+      if(req.cookies.JWTtoken){
+        await User.update({token:req.cookies.JWTtoken},{token:''})
+        res.clearCookie('JWTtoken');
+        return res.ok({success:messages.logout})
+      }
+      return res.badRequest({error:messages.logoutError})
     } catch (error) {
       return res.serverError(error.message)
     }

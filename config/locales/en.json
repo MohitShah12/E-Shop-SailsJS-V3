@@ -1,4 +1,37 @@
 {
   "Welcome": "Welcome",
-  "A brand new app.": "A brand new app."
+  "A brand new app.": "A brand new app.", 
+    "_comment":"For Singup",
+    "signin":"You have signed in succesfully",
+    "validEmail":"Provided email is not valid",
+    "nameLength":"Name must be at least 3 characters long",
+    "passwordLength":"Password must be at least 5 characters long",
+    "phoneno":"Phone no. must be in Numbers and must be 10 characters long",
+    "address":"Address is required",
+
+    "_comment_login":"For Login",
+    "success":"you have successfully logged in",
+    "noemail":"User with given email does not exist try signing up",
+    "alreadyUser":"User with same email already exist try Loggin in or use different email!",
+    "unauthorized":"Wrong credentials email and password does not match",
+    
+    "_comment_logout":"For Logout",
+    "logout":"You have successfully logged out",
+    "logoutError":"No users to logout",
+    
+    "_comment_admin":"For Admin",
+    "addProduct":"Product was added successfully",
+    "editProduct":"Product was edited successfully",
+    "deleteProduct":"Product was deleted successfully",
+    "noProduct":"Product is Not found",
+    "descLength":"Description must be at least 10 characters long",
+    "imgUrl":"Please provide a valid url of image",
+    
+    "_comment_cart":"For cart",
+    "addcart":"Product was added into cart successfully",
+    "deletecart":"Product was deleted from cart",
+    
+    
+    "_comment_without_login":"For without login",
+    "notAllowed":"You can not perform this action without login"
 }

@@ -8,9 +8,8 @@
 
 
 // const jwt = require('jsonwebtoken')
-const {jwt} = sails.config.constants.Dependencies
-const Messages = sails.config.constants.Messages
 const ResCodes = sails.config.constants.ResCodes
+const {messages} = sails.config.constants.Dependencies
 
 module.exports = {
     //Home page
@@ -51,15 +50,16 @@ module.exports = {
             //total products in database
             const count = await Shop.count()
             const shop = await Shop.find(query).meta({makeLikeModifierCaseInsensitive:true}).limit(limit).skip((page - 1)*limit)
-            res.view('shop/home',{
-                shopProducts : shop,
-                isAuthenticated:isLoggedIn,
-                isUser:req.user,
-                path:'/',
-                currentpage:page,
-                totalpage:Math.ceil(count/limit),
-                isAdmin:isAdmin
-            })
+            // res.view('shop/home',{
+            //     shopProducts : shop,
+            //     isAuthenticated:isLoggedIn,
+            //     isUser:req.user,
+            //     path:'/',
+            //     currentpage:page,
+            //     totalpage:Math.ceil(count/limit),
+            //     isAdmin:isAdmin
+            // })
+            return res.json(shop)
         } catch (error) {
             console.log(error)
               return res.serverError(error.message)
@@ -91,14 +91,15 @@ module.exports = {
             let limit = 5;
             const count = await Shop.count()
             const products = await Shop.find(query).meta({makeLikeModifierCaseInsensitive:true}).limit(limit).skip((page - 1)*limit)
-            res.view('shop/products',{
-                shopProducts : products,
-                isAuthenticated:isLoggedIn,
-                path:'/',
-                currentpage:page,
-                totalpage:Math.ceil(count/limit),
-                isAdmin:isAdmin
-            })
+            // res.view('shop/products',{
+            //     shopProducts : products,
+            //     isAuthenticated:isLoggedIn,
+            //     path:'/',
+            //     currentpage:page,
+            //     totalpage:Math.ceil(count/limit),
+            //     isAdmin:isAdmin
+            // })
+            return res.send(products)
         } catch (error) {
              return res.serverError(error.message)
         }
@@ -135,7 +136,7 @@ module.exports = {
         try {
             console.log(req.user)
             if(!req.user){
-                return res.status(ResCodes.unAuth).send(Messages.notAllowed)
+                return res.status(ResCodes.unAuth).send(messages.notAllowed)
             }
             //const decodedToken = await jwt.verify(req.cookies.JWTtoken,process.env.SESSION_SECRET)
             //getting user id
@@ -163,7 +164,7 @@ module.exports = {
                 const userCart=await User.addToCollection(userId,'cart').members([cartItem.id])
             }
             const user = await User.findOne(userId).populate('cart');
-            return res.ok(Messages.addcart)
+            return res.ok(messages.addcart)
         } catch (error) {
              return res.serverError(error.message)
         }
@@ -177,15 +178,15 @@ module.exports = {
             if(req.user){
                 isLoggedIn = true,
                 isAdmin = req.user.superUser
+                const userCart = await CartItem.find({user:req.user.id}).populate('shop')
+                return res.ok(userCart)
             }
-            const userCart = await CartItem.find({user:req.user.id}).populate('shop')
             // res.view('shop/cart',{
             //     product:userCart,
             //     path:'/cart',
             //     isAuthenticated:isLoggedIn,
             //     isAdmin:isAdmin
             // })
-            res.ok(userCart)
         } catch (error) {
               return res.serverError(error.message)
         }
@@ -196,10 +197,10 @@ module.exports = {
         try {
             const product = await CartItem.findOne({id:req.body.productId})
             if(!product){
-                return res.status(ResCodes.notFound).send(Messages.noProduct)
+                return res.status(ResCodes.notFound).send(messages.noProduct)
             }
             await CartItem.destroy({id:req.body.productId})
-            return res.ok(Messages.deletecart)
+            return res.ok(messages.deletecart)
         } catch (error) {
               return res.serverError(error.message)
         }

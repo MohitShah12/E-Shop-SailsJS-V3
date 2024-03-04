@@ -6,11 +6,8 @@
  */
 
 const {validator} = sails.config.constants.Dependencies
-const Messages = sails.config.constants.Messages
+const {messages} = sails.config.constants.Dependencies
 const ResCode = sails.config.constants.ResCodes
-
-// const validator = require('validator')
-// const jwt = require('jsonwebtoken')
 
 module.exports = {
     
@@ -30,7 +27,7 @@ module.exports = {
                 path: "/admin/add-product"
             })
         } catch (error) {
-             return res.serverError(error.message)
+             return res.serverError({error:error.message})
         }
     },
 
@@ -52,7 +49,7 @@ module.exports = {
                 product:product
             })
         } catch (error) {
-            return res.serverError(error.message)
+            return res.serverError({error:error.message})
         }
     },
 
@@ -62,12 +59,12 @@ module.exports = {
         try {
             //description validation
             if(!validator.isLength(req.body.description,{min:10})){
-                return res.badRequest(Messages.descLength)
+                return res.badRequest({error:messages.descLength})
                 //return res.redirect('/admin/add-product')
             }
             //image url validation
             if(!validator.isURL(req.body.imageUrl)){
-                return res.badRequest(Messages.imgUrl)
+                return res.badRequest({error:messages.imgUrl})
                 //return res.redirect('/admin/add-product')
             }
             //creating new product
@@ -78,9 +75,9 @@ module.exports = {
                 description:req.body.description,
                 category:req.body.category
             }).fetch()
-            return res.ok(Messages.addProduct)
+            return res.ok({success:messages.addProduct})
         } catch (error) {
-             return res.serverError(error.message)
+             return res.serverError({error:error.message})
         }
     },
 
@@ -89,17 +86,17 @@ module.exports = {
         try {
             //description validation
             if(!validator.isLength(req.body.description,{min:10})){
-                return res.badRequest(Messages.descLength)
+                return res.badRequest(messages.descLength)
                 //return res.redirect(`/admin/edit-product/:${req.params.id}`)
             }
             //image url validation
             if(!validator.isURL(req.body.imageUrl)){
-                return res.badRequest(Messages.imgUrl)
+                return res.badRequest(messages.imgUrl)
                 //return res.redirect('/admin/edit-product')
             }
             const product = await Shop.findOne({id:req.body.productId})
             if(!product){
-                return res.status(400).send(Messages.noProduct)
+                return res.status(400).send({error:messages.noProduct})
             }
             await Shop.update({id:product.id},{
                 title:req.body.title,
@@ -108,9 +105,9 @@ module.exports = {
                 price:req.body.price,
                 category:req.body.category
             })
-            return res.ok(Messages.editProduct)
+            return res.ok({success:messages.editProduct})
         } catch (error) {
-             return res.serverError(error.message)
+             return res.serverError({error:error.message})
         }
     },
 
@@ -121,14 +118,14 @@ module.exports = {
             const product = await Shop.findOne({id:req.body.productId})
             console.log(req.body.productId)
             if(!product){
-                return res.status(ResCode.notFound).send(Messages.noProduct)
+                return res.status(ResCode.notFound).send({error:messages.noProduct})
             }
             await Shop.destroy({id:product.id})
             //console.log('after:',product)
             await CartItem.destroy({shop:product.id})
-            return res.ok(Messages.deleteProduct)
+            return res.ok(messages.deleteProduct)
         } catch (error) {
-             return res.serverError(error.message)
+             return res.serverError({error:error.message})
         }
     },   
 

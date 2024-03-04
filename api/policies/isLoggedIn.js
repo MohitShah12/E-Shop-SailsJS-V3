@@ -1,6 +1,6 @@
 const {jwt} = sails.config.constants.Dependencies
 const ResCodes = sails.config.constants.ResCodes
-const Messages = sails.config.constants.Messages
+const {messages} = sails.config.constants.Dependencies
 //Authenticating the user
 module.exports= async (req,res,proceed)=>{
     console.log('inside loggedin policy')
@@ -16,7 +16,7 @@ module.exports= async (req,res,proceed)=>{
         //if user of given token does not exist
          if(!token){
             console.log('can not enter')
-            return res.status(ResCodes.unAuth).send(Messages.notAllowed)
+            return res.status(ResCodes.unAuth).send(messages.notAllowed)
          }
          console.log('wbhb',token)
         const decodedToken = await jwt.verify(token.token,process.env.SESSION_SECRET)
@@ -29,6 +29,10 @@ module.exports= async (req,res,proceed)=>{
                 return res.status(401).send('Unauthorized')
             }
         }
- }
+    }
+    else{
+        return res.badRequest({error:messages.notAllowed})
+    }
+
     proceed();
 }
