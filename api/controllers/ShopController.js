@@ -35,8 +35,13 @@ module.exports = {
             shop.category.toLowerCase().includes(search)
         );
 
+        //No product of given search query
+        if(filteredShops.length === 0){
+          return res.status(ResCodes.notFound).json({sorry:messages.noProduct});
+        }
+
         // Return filtered shops
-        return res.status(200).json(filteredShops);
+        return res.status(ResCodes.ok).json(filteredShops);
         // query = {
         //   or: [
         //     { title: { contains: search } },
@@ -213,8 +218,12 @@ module.exports = {
         const userCart = await CartItem.find({ user: req.user.id }).populate(
           "shop"
         );
+        if(userCart.length===0){
+          return res.status(ResCodes.notFound).json({ sorry : messages.emptyCart });
+        }
         return res.status(ResCodes.ok).json({ cartItems: userCart });
       }
+      
       // res.view('shop/cart',{
       //     product:userCart,
       //     path:'/cart',

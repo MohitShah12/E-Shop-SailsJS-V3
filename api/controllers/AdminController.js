@@ -60,12 +60,16 @@ module.exports = {
             console.log(req.user.superUser)
             if(req.user.superUser){
                 //description validation
-                if(!validator.isLength(req.body.description,{min:10})){
+                const {title,description,price,category,imageUrl} = req.body
+                if(!title || !description || !price || !category || !imageUrl){
+                    return res.badRequest({error:messages.required})
+                }
+                if(!validator.isLength(description,{min:10})){
                     return res.badRequest({error:messages.descLength})
                     //return res.redirect('/admin/add-product')
                 }
                 //image url validation
-                if(!validator.isURL(req.body.imageUrl)){
+                if(!validator.isURL(imageUrl)){
                     return res.badRequest({error:messages.imgUrl})
                     //return res.redirect('/admin/add-product')
                 }
@@ -90,13 +94,16 @@ module.exports = {
         try {
             //description validation
             if(req.user.superUser){
-
-                if(!validator.isLength(req.body.description,{min:10})){
+                const {title,description,price,category,imageUrl} = req.body
+                if(!title || !description || !price || !category || !imageUrl){
+                    return res.badRequest({error:messages.required})
+                }
+                if(!validator.isLength(description,{min:10})){
                     return res.badRequest(messages.descLength)
                     //return res.redirect(`/admin/edit-product/:${req.params.id}`)
                 }
                 //image url validation
-                if(!validator.isURL(req.body.imageUrl)){
+                if(!validator.isURL(imageUrl)){
                     return res.badRequest(messages.imgUrl)
                     //return res.redirect('/admin/edit-product')
                 }

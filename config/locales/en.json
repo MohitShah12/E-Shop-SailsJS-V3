@@ -29,6 +29,7 @@
     "_comment_cart":"For cart",
     "addcart":"Product was added into cart successfully",
     "deletecart":"Product was deleted from cart",
+    "emptyCart":"Nothing in your cart",
     
     "_comment_without_login":"For without login",
     "notAllowed":"You can not perform this action without login",

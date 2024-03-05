@@ -105,6 +105,80 @@
 							],
 							"cookie": [],
 							"body": "\"you have successfully logged in\""
+						},
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"abc@abc.com\",\n    \"password\":\"123456\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1337/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTZhMTU2YmY4NmMxYTVjZGMyY2UzNSIsImVtYWlsIjoiYWJjQGFiYy5jb20iLCJzdXBlclVzZXIiOnRydWUsImlhdCI6MTcwOTYxNjUzMiwiZXhwIjoxNzA5NzAyOTMyfQ.nZFPQM3ypii2RzGh6iZ2xd4O3ZVew0-h7YaRLUG5Kf8"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "JWTtoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTZhMTU2YmY4NmMxYTVjZGMyY2UzNSIsImVtYWlsIjoiYWJjQGFiYy5jb20iLCJzdXBlclVzZXIiOnRydWUsImlhdCI6MTcwOTYxNjUzMiwiZXhwIjoxNzA5NzAyOTMyfQ.nZFPQM3ypii2RzGh6iZ2xd4O3ZVew0-h7YaRLUG5Kf8; Max-Age=86400; Path=/; Expires=Wed, 06 Mar 2024 05:28:52 GMT; HttpOnly"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "connect.sid=s%3AsPmwwNe1XQxEqedYvHJApPA1G0_zo1n6.%2BE6as9SX9exWGVGacxbW7WRCom261kjP8zFtAqKBG9Q; Path=/; Expires=Wed, 06 Mar 2024 05:28:52 GMT; HttpOnly"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "542"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"21e-0Q4/LwqLwUvVuJOmVnYaBiwM+jc\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 05 Mar 2024 05:28:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"you have successfully logged in\",\n    \"user\": {\n        \"createdAt\": 1709613398500,\n        \"updatedAt\": 1709616485959,\n        \"id\": \"65e6a156bf86c1a5cdc2ce35\",\n        \"name\": \"ADMIN\",\n        \"email\": \"abc@abc.com\",\n        \"address\": \"ADMIN's house\",\n        \"superUser\": true,\n        \"mobileno\": \"1234567890\",\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZTZhMTU2YmY4NmMxYTVjZGMyY2UzNSIsImVtYWlsIjoiYWJjQGFiYy5jb20iLCJzdXBlclVzZXIiOnRydWUsImlhdCI6MTcwOTYxNjQ4NSwiZXhwIjoxNzA5NzAyODg1fQ.Q_HrGnd6rATnTWKdFM0wTGzs7IdLMQNXgsplHZWUFRw\"\n    }\n}"
 						}
 					]
 				},
@@ -806,6 +880,91 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"error\": \"Product is Not found\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Searching",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:1337/products?search=mobile1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "1337",
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "mobile1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1337/products?search=mobile1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1337",
+									"path": [
+										"products"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "mobile1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Sails <sailsjs.com>"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "376"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"178-/OPPRaIj5spraWFx2JJonDahgy4\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 05 Mar 2024 09:37:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"products\": [\n        {\n            \"createdAt\": 1709624390757,\n            \"updatedAt\": 1709624390757,\n            \"id\": \"65e6cc46589b3902716da0f8\",\n            \"title\": \"Mobile1\",\n            \"imageUrl\": \"https://5.imimg.com/data5/SELLER/Default/2020/12/WI/VR/VK/118676901/oppo-f17-pro-mobile.jpg\",\n            \"price\": 11000,\n            \"description\": \"abcdefghijklmnopqrstuv\",\n            \"category\": \"Elec\"\n        }\n    ]\n}"
 						}
 					]
 				}

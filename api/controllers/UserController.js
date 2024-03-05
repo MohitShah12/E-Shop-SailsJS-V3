@@ -84,7 +84,7 @@ module.exports = {
     try {
         const {email,password} = req.body
         if(!email||!password){
-          return res.send({error:messages.required})
+          return res.badRequest({error:messages.required})
         } 
         const user = await User.findOne({email:email})
         //if user exist in database
