@@ -159,6 +159,9 @@ module.exports = {
       //getting product id
       const productId = req.body.productId;
       const product = await Shop.findOne({ id: productId });
+      if(!product){
+        return res.status(ResCodes.notFound).json({error:messages.noProduct})
+      }
 
       //finding product in cart
       const findproductincart = await CartItem.findOne({

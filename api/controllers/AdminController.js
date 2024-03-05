@@ -77,7 +77,7 @@ module.exports = {
                     description:req.body.description,
                     category:req.body.category
                 }).fetch()
-                return res.ok({success:messages.addProduct})
+                return res.status(ResCode.ok).json({success:messages.addProduct,product:shop})
             }
             return res.badRequest({ error: messages.notAuthorized });
         } catch (error) {
@@ -111,7 +111,7 @@ module.exports = {
                     price:req.body.price,
                     category:req.body.category
                 })
-                return res.ok({success:messages.editProduct})
+                return res.status(ResCode.ok).json({success:messages.editProduct,product:shop})
             }
             return res.badRequest({ error: messages.notAuthorized });
         } catch (error) {
