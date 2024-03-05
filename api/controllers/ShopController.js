@@ -5,8 +5,6 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
-
-
 // const jwt = require('jsonwebtoken')
 const ResCodes = sails.config.constants.ResCodes;
 const { messages } = sails.config.constants.Dependencies;
@@ -25,15 +23,26 @@ module.exports = {
       //searching query
       let query = {};
 
+      //limit of products per page
+      let limit = 5;
       if (req.query.search) {
-        const search = req.query.search;
         //searching using title or category
-        query = {
-          or: [
-            { title: { contains: search } },
-            { category: { contains: search } },
-          ],
-        };
+        const search = req.query.search.toLowerCase();
+        const shops = await Shop.find();
+        const filteredShops = shops.filter(
+          (shop) =>
+            shop.title.toLowerCase().includes(search) ||
+            shop.category.toLowerCase().includes(search)
+        );
+
+        // Return filtered shops
+        return res.status(200).json(filteredShops);
+        // query = {
+        //   or: [
+        //     { title: { contains: search } },
+        //     { category: { contains: search } },
+        //   ],
+        // };
       }
       let isLoggedIn = false;
       let isAdmin = false;
@@ -46,13 +55,9 @@ module.exports = {
       console.log("Admin", isAdmin);
       //checking for JWTtoken avability in cookie
       console.log("Login", isLoggedIn);
-      //limit of products per page
-      let limit = 5;
       //total products in database
       const count = await Shop.count();
-      //
-      const shop = await Shop.find(query)
-        .meta({ makeLikeModifierCaseInsensitive: true })
+      const shop = await Shop.find()
         .limit(limit)
         .skip((page - 1) * limit);
       // res.view('shop/home',{
@@ -79,30 +84,28 @@ module.exports = {
         page = req.query.page;
       }
       let query = {};
-      let search = ''
+      let search = "";
+      let limit = 5;
       if (req.query.search) {
-        search = req.query.search;
-        query = {
-          or: [
-            { title: { contains: search } },
-            { category: { contains: search } },
-          ],
-        };
+        search = req.query.search.toLowerCase();
+        const shop = await Shop.find();
+
+        const filteredShops = shop.filter(
+          (shop) =>
+            shop.title.toLowerCase().includes(search) ||
+            shop.category.toLowerCase().includes(search)
+        );
+        return res.status(ResCodes.ok).json({ products: filteredShops });
       }
       let isLoggedIn = false;
       let isAdmin = false;
       if (req.user) {
         (isLoggedIn = true), (isAdmin = req.user.superUser);
       }
-      //.meta({ makeLikeModifierCaseInsensitive: true })
-      let limit = 5;
       const count = await Shop.count();
-      const products = await Shop.find({
-        or: [
-            { title: { contains: search } },
-            { category: { contains: search } }
-        ]
-    }).limit(limit).skip((page - 1) * limit);
+      const products = await Shop.find()
+        .limit(limit)
+        .skip((page - 1) * limit);
       // res.view('shop/products',{
       //     shopProducts : products,
       //     isAuthenticated:isLoggedIn,
@@ -128,8 +131,10 @@ module.exports = {
         // isLoggedIn = true,
         isAdmin = req.user.superUser;
       }
-      if(!product){
-        return res.status(ResCodes.notFound).send({error:messages.noProduct})
+      if (!product) {
+        return res
+          .status(ResCodes.notFound)
+          .send({ error: messages.noProduct });
       }
       // console.log(product)
       // res.send(product)
@@ -140,7 +145,7 @@ module.exports = {
       //   isAuthenticated: isLoggedIn,
       //   isAdmin: isAdmin,
       // });
-      return res.send(product)
+      return res.send(product);
     } catch (error) {
       return res.serverError(error.message);
     }
@@ -159,8 +164,10 @@ module.exports = {
       //getting product id
       const productId = req.body.productId;
       const product = await Shop.findOne({ id: productId });
-      if(!product){
-        return res.status(ResCodes.notFound).json({error:messages.noProduct})
+      if (!product) {
+        return res
+          .status(ResCodes.notFound)
+          .json({ error: messages.noProduct });
       }
 
       //finding product in cart
@@ -187,8 +194,10 @@ module.exports = {
         ]);
       }
       const user = await User.findOne(userId).populate("cart");
-      const cartItems = await CartItem.find({user:userId})
-      return res.status(ResCodes.ok).json({success:messages.addcart,cartItems:cartItems});
+      const cartItems = await CartItem.find({ user: userId });
+      return res
+        .status(ResCodes.ok)
+        .json({ success: messages.addcart, cartItems: cartItems });
     } catch (error) {
       return res.serverError(error.message);
     }
@@ -204,7 +213,7 @@ module.exports = {
         const userCart = await CartItem.find({ user: req.user.id }).populate(
           "shop"
         );
-        return res.status(ResCodes.ok).json({cartItems:userCart});
+        return res.status(ResCodes.ok).json({ cartItems: userCart });
       }
       // res.view('shop/cart',{
       //     product:userCart,
@@ -223,10 +232,12 @@ module.exports = {
     try {
       const product = await CartItem.findOne({ id: req.body.productId });
       if (!product) {
-        return res.status(ResCodes.notFound).send({error:messages.noProduct});
+        return res
+          .status(ResCodes.notFound)
+          .send({ error: messages.noProduct });
       }
       await CartItem.destroy({ id: req.body.productId });
-      return res.ok({error:messages.deletecart});
+      return res.ok({ error: messages.deletecart });
     } catch (error) {
       return res.serverError(error.message);
     }
@@ -251,7 +262,13 @@ module.exports = {
           totalSum += sum;
         }
         //deleting items from the cart after buying it
-        res.status(ResCodes.ok).json({ success:"You have successfullly bought item(s)",TotalPay: totalSum,products:products });
+        res
+          .status(ResCodes.ok)
+          .json({
+            success: "You have successfullly bought item(s)",
+            TotalPay: totalSum,
+            products: products,
+          });
         return await CartItem.destroy({ user: req.user.id });
         // res.view('shop/checkout',{
         //     total:totalSum,

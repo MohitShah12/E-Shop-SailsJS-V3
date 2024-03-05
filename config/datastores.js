@@ -13,6 +13,8 @@
  * https://sailsjs.com/config/datastores
  */
 
+const {dotenv} = require('dotenv').config()
+
 module.exports.datastores = {
 
 
@@ -49,7 +51,7 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'sails-mongo',
-    url: 'mongodb://localhost:27017/Eshop-Sails',
+    url: process.env.MONGO_URI,
 
   },
 
