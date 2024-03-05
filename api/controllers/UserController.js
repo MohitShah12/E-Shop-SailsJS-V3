@@ -96,7 +96,7 @@ module.exports = {
               const token = jwt.sign({id:user.id,email:user.email,superUser:user.superUser},process.env.SESSION_SECRET,{expiresIn:'1d'})
               console.log(user.email)
               console.log(token)
-              await User.update({email:user.email},{token:token})
+              const updateduser = await User.update({email:user.email},{token:token}).fetch()
 
                 //storing token into header
                 res.set('token',token)
@@ -112,7 +112,7 @@ module.exports = {
                 delete user.password
                 return res.status(ResCodes.ok).json({
                   success:messages.success,
-                  user:user
+                  user:updateduser
 
                 })
                 // return res.json({'token':token})
