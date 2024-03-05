@@ -6,6 +6,7 @@ module.exports= async (req,res,proceed)=>{
     console.log('inside loggedin policy')
     if(req.cookies.JWTtoken){
         //decoding jwt token
+        console.log('token bro',res.get('token')) 
         const cookieToken = req.cookies.JWTtoken
         console.log('Getting token: ',cookieToken )
 
@@ -30,9 +31,5 @@ module.exports= async (req,res,proceed)=>{
             }
         }
     }
-    else{
-        return res.badRequest({error:messages.notAllowed})
-    }
-
     proceed();
 }

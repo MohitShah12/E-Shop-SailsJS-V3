@@ -1,6 +1,4 @@
 {
-  "Welcome": "Welcome",
-  "A brand new app.": "A brand new app.", 
     "_comment":"For Singup",
     "signin":"You have signed in succesfully",
     "validEmail":"Provided email is not valid",
@@ -30,7 +28,6 @@
     "_comment_cart":"For cart",
     "addcart":"Product was added into cart successfully",
     "deletecart":"Product was deleted from cart",
-    
     
     "_comment_without_login":"For without login",
     "notAllowed":"You can not perform this action without login"

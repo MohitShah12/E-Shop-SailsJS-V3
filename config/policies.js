@@ -33,7 +33,6 @@ module.exports.policies = {
   AdminController:{
     'getAddProduct':'isLoggedIn',
     'getEditProduct':'isLoggedIn',
-    'getCart':'isLoggedIn',
   },
 
 

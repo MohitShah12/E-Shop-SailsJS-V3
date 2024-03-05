@@ -85,30 +85,28 @@ module.exports = {
         if(user){
             const validPassword = await bcrypt.compare(req.body.password,user.password)
             if(validPassword){
-              console.log(process.env.SESSION_SECRET)
+              console.log('env with or without congig',process.env.SESSION_SECRET)
+              //generating token
               const token = jwt.sign({id:user.id,email:user.email,superUser:user.superUser},process.env.SESSION_SECRET,{expiresIn:'1d'})
-              res.set('token', token);
               console.log(user.email)
               await User.update({email:user.email},{token:token})
-                //generating token
 
-                //storing token into cookie
-                res.cookie('JWTtoken',token, {
+                //storing token into header
+                res.set('token',token)
+
+                res.cookie('JWTtoken',res.get('token'), {
                   maxAge:1 * 24 * 60 * 60 * 1000, // 1 day in milliseconds
-                  // maxAge:5000,
                   httpOnly: true, // preventing client-side JavaScript from accessing the cookie
                 })
                 //console.log(token)
                 // const headers = 'token'
-                // res.set(headers)
-
+                // res.set(headers)              
                 // res.set('Authorization','Bearer' + token)
-                console.log('token',res.get('token'))
+                //console.log('tokenn',res.get('token'))
                 return res.ok({message:messages.success})
                 // return res.json({'token':token})
                 // return res.redirect('/')
             }
-
             //if password and email does not match
             
             return res.status(ResCodes.unAuth).send({Unauthorized:messages.unauthorized})
