@@ -111,7 +111,7 @@ module.exports = {
                     price:req.body.price,
                     category:req.body.category
                 })
-                return res.status(ResCode.ok).json({success:messages.editProduct,product:shop})
+                return res.status(ResCode.ok).json({success:messages.editProduct,product:product})
             }
             return res.badRequest({ error: messages.notAuthorized });
         } catch (error) {
