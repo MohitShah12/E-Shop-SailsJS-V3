@@ -9,7 +9,8 @@ const Dependencies = {
 const ResCodes = {
     unAuth : 401,
     notFound : 404,
-    conflict:409
+    conflict:409,
+    ok:200
 }
 
 module.exports.constants={

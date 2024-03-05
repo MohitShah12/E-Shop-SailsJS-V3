@@ -33,6 +33,10 @@ module.exports.policies = {
   AdminController:{
     'getAddProduct':'isLoggedIn',
     'getEditProduct':'isLoggedIn',
+    'PostAddProduct':'isLoggedIn',
+    'postEditProduct':'isLoggedIn',
+    'PostDeleteProduct':'isLoggedIn',
+    'postLogout':'isLoggedIn'
   },
 
 

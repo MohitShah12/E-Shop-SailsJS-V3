@@ -5,6 +5,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+
+
 // const jwt = require('jsonwebtoken')
 const ResCodes = sails.config.constants.ResCodes;
 const { messages } = sails.config.constants.Dependencies;
@@ -182,7 +184,8 @@ module.exports = {
         ]);
       }
       const user = await User.findOne(userId).populate("cart");
-      return res.ok(messages.addcart);
+      const cartItems = await CartItem.find({user:userId})
+      return res.status(ResCodes.ok).json({success:messages.addcart,cartItems:cartItems});
     } catch (error) {
       return res.serverError(error.message);
     }
@@ -198,7 +201,7 @@ module.exports = {
         const userCart = await CartItem.find({ user: req.user.id }).populate(
           "shop"
         );
-        return res.ok(userCart);
+        return res.status(ResCodes.ok).json({cartItems:userCart});
       }
       // res.view('shop/cart',{
       //     product:userCart,
@@ -245,12 +248,12 @@ module.exports = {
           totalSum += sum;
         }
         //deleting items from the cart after buying it
-        await CartItem.destroy({ user: req.user.id });
+        res.status(ResCodes.ok).json({ success:"You have successfullly bought item(s)",TotalPay: totalSum,products:products });
+        return await CartItem.destroy({ user: req.user.id });
         // res.view('shop/checkout',{
         //     total:totalSum,
         //     product:products
         // })
-        return res.ok({ TotalPay: totalSum });
       }
       return res.badRequest({ error: messages.notAllowed });
     } catch (error) {

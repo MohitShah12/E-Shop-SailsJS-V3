@@ -12,6 +12,7 @@
     "noemail":"User with given email does not exist try signing up",
     "alreadyUser":"User with same email already exist try Loggin in or use different email!",
     "unauthorized":"Wrong credentials email and password does not match",
+    "required":"Please fill all the field",
     
     "_comment_logout":"For Logout",
     "logout":"You have successfully logged out",
@@ -30,5 +31,6 @@
     "deletecart":"Product was deleted from cart",
     
     "_comment_without_login":"For without login",
-    "notAllowed":"You can not perform this action without login"
+    "notAllowed":"You can not perform this action without login",
+    "notAuthorized":"You are not allowed to perform this action"
 }
